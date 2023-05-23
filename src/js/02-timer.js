@@ -24,31 +24,69 @@ let timerId = null;
 
 function onStartClick(selectedDate) {
   timerId = setInterval(() => {
-    const differenceInTime = selectedDate - new Date();
+ Maryna Makukhina, [22 мая 2023 г., 6:41:43 PM]:
+...import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+
+const startBtn = document.querySelector('button[data-start]');
+
+const refs = {
+  hours: document.querySelector('[data-hours]'),
+  days: document.querySelector('[data-days]'),
+  minutes: document.querySelector('[data-minutes]'),
+  seconds: document.querySelector('[data-seconds]'),
+};
+
+startBtn.disabled = true;
+startBtn.addEventListener('click', onStartClick);
+
+let processDate;
+
+const options = {
+  enableTime: true,
+  time_24hr: true,
+  defaultDate: new Date(),
+  minuteIncrement: 1,
+  onClose([selectedDate]) {
+    if (selectedDate <= Date.now()) {
+      startBtn.disabled = true;
+      alert('Please choose a date in the future');
+      return;
+    }
+    startBtn.disabled = false;
+    processDate = selectedDate;
+  },
+};
+
+let timerId = null;
+
+function onStartClick() {
+  if (!processDate) {
+    return;
+  }
+
+  timerId = setInterval(() => {
+    const differenceInTime = processDate - Date.now();
     if (differenceInTime < 1000) {
       clearInterval(timerId);
     }
     const data = convertMs(differenceInTime);
-    document.querySelector("[data-hours]").textContent = addLeadingZero(
-      data.hours
-    );
-    document.querySelector("[data-days]").textContent = addLeadingZero(
-      data.days
-    );
-    document.querySelector("[data-minutes]").textContent = addLeadingZero(
-      data.minutes
-    );
-    document.querySelector("[data-seconds]").textContent = addLeadingZero(
-      data.seconds
-    );
+    printDate(data);
   }, 1000);
 }
 
-function addLeadingZero(value) {
-  return String(value).padStart(2, "0");
+function printDate(data) {
+  refs.hours.textContent = addLeadingZero(data.hours);
+  refs.days.textContent = addLeadingZero(data.days);
+  refs.minutes.textContent = addLeadingZero(data.minutes);
+  refs.seconds.textContent = addLeadingZero(data.seconds);
 }
 
-flatpickr("input#datetime-picker", options);
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
+
+flatpickr('input#datetime-picker', options);
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -68,3 +106,6 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
+
+Hanna Pokamiestova, [22 мая 2023 г., 6:42:30 PM]:
+Добрий день. Я д...
