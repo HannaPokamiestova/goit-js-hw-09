@@ -1,31 +1,4 @@
-import flatpickr from "flatpickr";
-import "flatpickr/dist/flatpickr.min.css";
-
-const startBtn = document.querySelector("button[data-start]");
-startBtn.disabled = true;
-
-const options = {
-  enableTime: true,
-  time_24hr: true,
-  defaultDate: new Date(),
-  minuteIncrement: 1,
-  onClose(selectedDates) {
-    if (selectedDates[0] <= new Date()) {
-      startBtn.disabled = true;
-      alert("Please choose a date in the future");
-      return;
-    }
-    startBtn.disabled = false;
-    startBtn.addEventListener("click", onStartClick(selectedDates[0]));
-  },
-};
-
-let timerId = null;
-
-function onStartClick(selectedDate) {
-  timerId = setInterval(() => {
- Maryna Makukhina, [22 мая 2023 г., 6:41:43 PM]:
-...import flatpickr from 'flatpickr';
+import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
 const startBtn = document.querySelector('button[data-start]');
@@ -106,6 +79,3 @@ function convertMs(ms) {
 
   return { days, hours, minutes, seconds };
 }
-
-Hanna Pokamiestova, [22 мая 2023 г., 6:42:30 PM]:
-Добрий день. Я д...
